@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+            <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+            <link type="text/css" rel="stylesheet" href="/bootstrap/css/docs.min.css" rel="stylesheet">
+            <script src="http://code.jquery.com/jquery.min.js"></script>
+            <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+            <style type="text/css">
+              body {
+                padding-top: 40px;
+                padding-bottom: 40px;
+                padding-left: 50px;
+                background-color: #f5f5f5;
+                text-align: center;
+              }
+              blockquote {
+                margin-bottom: 10px;
+                border-left-color: #bbb;
+              }
+              form {
+                margin-top: 10px;
+              }
+              .form-signin input[type="text"] {
+                font-size: 16px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 7px 9px;
+              }
+              .row {
+                margin-left: 0px;
+                margin-top: 10px;
+                overflow: scroll;
+              }
+
+              .mainTable{
+                margin-left: auto;
+                margin-right: auto;
+
+              }
+              .mainTable td:hover{
+                    background: #b8d1f3;
+              }
+
+
+              .like_delete_btn{
+                margin-left: auto;
+                margin-right: auto;
+              }
+
+
+            </style>
+            <title>This is the home page</title>
+            <h1 align="center" >Internet Technologies Assignment 2</h1>
+            <h2 align="center"><img src="http://www.icicte.org/Ionian-University-logo.gif" width="400"></h2>
+            <h6 align="center" >Victor Giannakouris - Salalidis, Athanasios Restas, Dimitra Afrati</h6>
+        </head>
+    <body>
+        {% if user %}
+            <p>You are signed in as {{ user }}. <a href="{{ log_out }}">Logout</a></p>
+            <p><a href="/newpost">Create new post!</a></p>
+            <h2>Other users</h2>
+            {% for ru in registered_users %}
+                <a href="/?user={{ ru.user.email() }}">{{ ru.user.email() }}</a>
+            {% endfor %}
+            {% if admin %}
+                <p>You are signed in as <em>Administrator</em></p>
+            {% endif %}
+            <h2>Latest Posts</h2>
+            {% for p in db_posts %}
+                {% if p.user_mail == nav_user %}
+                <table class="mainTable" >
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="{{ p.key().name() }}" type="post">
+                                <h2> <b>Title:</b> {{ p.title }}</h2>
+                                <p>User <b>{{ p.user_mail }}</b> at <b>{{ (p.post_date|string)[0:16] }}</b> wrote: </p>
+                                <p>{{ p.text }}</p>
+                                {% if p.liked_by %}
+                                        <p>Likes: {{ p.liked_by|join(', ') }}</p>
+                                    {% endif %}
+                                <table class ="like_delete_btn">
+                                    <td>
+                                    {% if user.email() in p.liked_by %}
+                                        <form action="/likesmanager" method="post">
+                                            <input name="entity_id" value="{{ p.key() }}" type="hidden" />
+                                            <input name="like_btn"  value="Unlike"  type="submit" class="btn btn-primary" >
+                                        </form>
+                                    {% else %}
+                                        <form action="/likesmanager" method="post">
+                                            <input name="entity_id" value="{{ p.key() }}" type="hidden"/>
+                                            <input name="like_btn" value="Like" type="submit" class="btn btn-primary">
+                                        </form>
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                    {% if user.email() == p.user_mail or admin%}
+                                        <form action="/delete" method="post">
+                                            <input name="entity_id" value="{{ p.key() }}" type="hidden"/>
+                                            <input name="delete" value="Delete" type="submit" class="btn btn-warning">
+                                        </form>
+                                    {% endif %}
+                                    </td>
+                                </table>
+
+                                <form action='/comment' method='post'>
+                                    <p><input name='comment' placeholder='Comment' type='text'/></p>
+                                    <input type='hidden' name='entity_id' value="{{ p.key() }}"/>
+                                </form>
+                                {% if p.comments %}
+                                    <table id="comments_table" class="table table-striped ">
+                                    {% for comment in ((p.comments|literal_eval).items()|OrderByDate) %}
+                                        <tr>
+                                            <td width="300">
+                                                <div type="post_comment">
+                                                   <p>
+                                                       User <b> {{ comment[1]['user'] }}</b><br>
+                                                       said: <b> {{ comment[1]['text'] }}</b><br>
+                                                       at: <b> {{ comment[1]['datetime']|fromtimestamp }}</b><br>
+                                                   </p>
+                                                   <br>
+                                                    {% if comment[1]['likes'] %}
+                                                        <p>Liked by: {{ comment[1]['likes']|join(', ') }}</p>
+                                                    {% endif %}
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {% if user.email() in comment[1]['likes']%}
+                                                    <form action="/likecomment" method="post">
+                                                        <input value="Unlike" name="comment_like" type="submit" class="btn btn-primary"/>
+                                                        <input type="hidden" name="entity_id" value="{{ p.key() }}"/>
+                                                        <input type="hidden" name="comment_id" value="{{ comment[0] }}"/>
+                                                    </form>
+                                                {% else %}
+                                                    <form action="/likecomment" method="post">
+                                                        <input value="Like" name="comment_like" type="submit" class="btn btn-primary"/>
+                                                        <input type="hidden" name="entity_id" value="{{ p.key() }}"/>
+                                                        <input type="hidden" name="comment_id" value="{{ comment[0] }}"/>
+                                                    </form>
+                                                {% endif %}
+                                                <br>
+                                                {% if user.email() == comment[1]['user'] or user.email() == p.user_mail or admin%}
+                                                    <form action="/comment" method="post">
+                                                            <input value="Delete" name="comment_delete" type="submit" class="btn btn-warning"/>
+                                                            <input type="hidden" name="entity_id" value="{{ p.key() }}"/>
+                                                            <input type="hidden" name="comment_id" value="{{ comment[0] }}"/>
+                                                    </form>
+                                                {% endif %}
+
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </table>
+                                {% endif %}
+                    </div>
+                        </td>
+                    </tr>
+                    </tbody>
+            </table>
+            {% endif %}
+        {% endfor %}
+        {% else %}
+        <p>Please <a href="{{ log_in }}">log in</a></p>
+        {% endif %}
+
+    </body>
+</html>

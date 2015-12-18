@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Boubanos</title>
+
+  </head>
+  <body>
+    <p>Welcome, {{ user.email() }}!</p>
+    <p>You can <a href="{{ logout_url }}">sign out</a>.</p>
+    <p>New Post </p>
+
+    <form action="/store_post" method="post">
+      <input type="text" size="40" id="post_title" name="post_title" placeholder="Title..."/><br><br>
+      <textarea rows="10" cols="50" id='post_box' name='post_box' placeholder='Content...'></textarea>
+      <br>
+      <input type="submit" value='Submit'/>
+    </form>
+    <p>The time is: {{ current_time }}</p>
+  </body>
+
+</script>
+</html>

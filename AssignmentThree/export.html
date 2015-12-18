@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+<body>
+
+
+	<script src="js/json2xml.js"></script>
+	<script src="js/jquery.js"></script>
+
+	<script type="text/javascript">
+	function htmlEncode(value){
+  		return $('<div/>').text(value).html();
+	}
+	$(document).ready(function(){
+		$.getJSON('http://localhost/InternetTechnologies/AssignmentThree/corfu_weather.json', 
+			function(data){
+				$(".generator").ready(function(){
+					document.write("<div id='xmlcontent'>" + 
+						htmlEncode(json2xml(data)) + 
+						"</div>")
+				})
+			}
+	)})
+	</script>
+	
+</body>

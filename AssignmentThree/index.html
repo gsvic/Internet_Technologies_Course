@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body onload=test()>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Internet Technologies - Assignment 3</a>
+                <h10>Athanasios Restas, Victor Giannakouris Salalidis</h10>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="export.html">Export XML</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>    
+
+    <br><br>
+
+    <!-- Page Content -->
+
+    <div class="container" style="float:center;">                                       
+        <div id="ourmenu" class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Cities
+            <span class="caret"></span></button>
+        </div>       
+    </div>
+
+    <div id="infoMenu" style="float:left; margin-left: 3cm; margin-top: 1cm">      
+        <p>Info about : <b id ="cityName"></b></p>
+        <p>Temp :<b id ="cityTemp"> </b></p>
+        <p>TempMin :<b id ="cityTempMin"> </b></p>
+        <p>TempMax :<b id ="cityTempMax"> </b></p>
+        <p>Pressure :<b id ="cityPress"> </b></p>
+        <p>Sea level :<b id ="citySea"> </b></p>
+        <p>Ground level :<b id ="cityGrnd"> </b></p>
+        <p>Humidity :<b id ="cityHum"> </b></p>
+        <p>Wind Speed :<b id ="cityWindSpeed"> </b></p>
+        <p>Wind deg :<b id ="cityWindDeg"> </b></p>
+        <p>Clouds :<b id ="cityClouds"> </b></p>
+        <p>Weather:<b id ="cityWeather"> </b></p>           
+    </div>
+    <div id="findWeather1" style = "float:right; margin-right: 8cm; margin-top: 1cm;">
+        <form name="findWeather" onSubmit="findLocations(); return false;">
+            Location 1 x,y:<br>
+            <input type="text" name="longitude" placeholder="100,100">
+            <br>
+            Location 2 x,y:<br>
+            <input type="text" name="latitude" placeholder="100,100">
+            <br>
+            <input type="submit" value="Submit">
+         </form>
+    </div>
+ 
+
+    
+        
+        <div id = "locations" style="float:center; margin-top: 1cm; margin-left: 10cm;">
+            <p>Locations found between x and y :</p>
+
+        </div>
+    
+
+
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ourscript.js"></script>
+
+</body>
+
+</html>
